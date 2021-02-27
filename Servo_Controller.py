@@ -46,10 +46,10 @@ def move_PF(angle):
     S.setServoAngle(13,angle)
     print("Move PF to " + str(angle))
 def move_PM(angle):
-    S.setServoAngle(10,angle))
+    S.setServoAngle(10,angle)
     print("Move PM to " + str(angle))
 def move_PR(angle):
-    S.setServoAngle(31,angle))
+    S.setServoAngle(31,angle)
     print("Move PR to " + str(angle))
 def move_SF(angle):
     S.setServoAngle(18,angle)
