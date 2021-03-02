@@ -3,66 +3,59 @@ import Adafruit_PCA9685
 import time 
 import math
 import smbus
+import sys
 
-class Servo:
-    def __init__(self):
-        self.pwm_40 = Adafruit_PCA9685.PCA9685(0x40)
-        self.pwm_41 = Adafruit_PCA9685.PCA9685(0x41) 
-        # Set the cycle frequency of PWM  
-        self.pwm_40.set_pwm_freq(50) 
-        time.sleep(0.01) 
-        self.pwm_41.set_pwm_freq(50) 
-        time.sleep(0.01)             
+def main(argv):
+    pwm_40 = Adafruit_PCA9685.PCA9685(0x40)
+    pwm_41 = Adafruit_PCA9685.PCA9685(0x41) 
+    # Set the cycle frequency of PWM  
+    pwm_40.set_pwm_freq(50) 
+    time.sleep(0.01) 
+    pwm_41.set_pwm_freq(50) 
+    time.sleep(0.01)             
 
     #Convert the input angle to the value of pca9685
-    def setServoAngle(self,channel, angle):  
+    def setServoAngle(channel, angle):  
         if channel < 16:
-            date = 4096 * ((angle * 10) + 850) / 20000
-            self.pwm_41.set_pwm(channel, 0, int(date))
+            date = 4096 * ((int(angle) * 10) + 850) / 20000
+            pwm_41.set_pwm(channel, 0, int(date))
         elif channel >= 16 and channel < 32:
             channel-=16
-            date = 4096 * ((angle * 10) + 850) / 20000
-            self.pwm_40.set_pwm(channel, 0, int(date))
+            date = 4096 * ((int(angle) * 10) + 850) / 20000
+            pwm_40.set_pwm(channel, 0, int(date))
         #time.sleep(0.0001)
-    def relax(self):
-        for i in range(8):
-            self.pwm_41.set_pwm(i+8, 4096, 4096)
-            self.pwm_40.set_pwm(i, 4096, 4096)
-            self.pwm_40.set_pwm(i+8, 4096, 4096)
-def reset_robot():
-    S.setServoAngle(13,0)
-    slider_PF.set(0)
-    S.setServoAngle(10,0)
-    slider_PM.set(0)
-    S.setServoAngle(31,0)
-    slider_PR.set(0)
-    S.setServoAngle(18,180)
-    slider_SF.set(180)
-    S.setServoAngle(21,180)
-    slider_SM.set(180)
-    S.setServoAngle(27,180)
-    slider_SR.set(180)
-def move_PF(angle):
-    S.setServoAngle(13,angle)
-    print("Move PF to " + str(angle))
-def move_PM(angle):
-    S.setServoAngle(10,angle)
-    print("Move PM to " + str(angle))
-def move_PR(angle):
-    S.setServoAngle(31,angle)
-    print("Move PR to " + str(angle))
-def move_SF(angle):
-    S.setServoAngle(18,angle)
-    print("Move SF to " + str(angle))
-def move_SM(angle):
-    S.setServoAngle(21,angle)
-    print("Move SM to " + str(angle))
-def move_SR(angle):
-    S.setServoAngle(27,angle)
-    print("Move SR to " + str(angle))
+    def reset_robot():
+        setServoAngle(13,0)
+        slider_PF.set(0)
+        setServoAngle(10,0)
+        slider_PM.set(0)
+        setServoAngle(31,0)
+        slider_PR.set(0)
+        setServoAngle(18,180)
+        slider_SF.set(180)
+        setServoAngle(21,180)
+        slider_SM.set(180)
+        setServoAngle(27,180)
+        slider_SR.set(180)
+    def move_PF(angle):
+        setServoAngle(13,angle)
+        print("Move PF to " + str(angle))
+    def move_PM(angle):
+        setServoAngle(10,angle)
+        print("Move PM to " + str(angle))
+    def move_PR(angle):
+        setServoAngle(31,angle)
+        print("Move PR to " + str(angle))
+    def move_SF(angle):
+        setServoAngle(18,angle)
+        print("Move SF to " + str(angle))
+    def move_SM(angle):
+        setServoAngle(21,angle)
+        print("Move SM to " + str(angle))
+    def move_SR(angle):
+        setServoAngle(27,angle)
+        print("Move SR to " + str(angle))
 
-if __name__ == '__main__':
-    #Draw User Interface
     window = tk.Tk()
 
     frame_PF = tk.Frame(master=window,relief=tk.RAISED,borderwidth=1)
@@ -111,5 +104,8 @@ if __name__ == '__main__':
 
     window.mainloop()
 
-    #Main part of program
-    S=Servo()
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
+
+
